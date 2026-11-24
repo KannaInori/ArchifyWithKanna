@@ -1882,13 +1882,17 @@ html[data-preset="blueprint"] .semantic-passport-evidence { border-radius: 0.18r
 }
 .semantic-passport-repository:hover,
 .semantic-passport-repository:focus-visible { color: var(--backend-stroke); }
-.semantic-passport-evidence-links { display: grid; gap: 0.22rem; }
+.semantic-passport-evidence-links {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.45rem;
+}
 .semantic-passport-source {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 0.15rem 0.45rem;
-  align-items: center;
-  padding: 0.34rem 0.4rem;
+  align-items: start;
+  padding: 0.34rem 0.4rem 0.2rem;
   border: 1px solid transparent;
   border-radius: 0.38rem;
   color: var(--text-muted);
@@ -1901,23 +1905,56 @@ a.semantic-passport-source:focus-visible {
   color: var(--text);
 }
 .semantic-passport-source strong {
-  overflow: hidden;
-  font-size: 0.5625rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  grid-column: 1 / -1;
+  min-width: 0;
+  color: var(--text);
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-size: 0.6875rem;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 .semantic-passport-source code {
+  grid-column: 2;
+  grid-row: 2;
   color: var(--backend-stroke);
   font: inherit;
-  font-size: 0.5rem;
+  font-size: 0.625rem;
+  white-space: nowrap;
 }
 .semantic-passport-source small {
-  grid-column: 1 / -1;
-  overflow: hidden;
-  color: var(--text-faint);
-  font-size: 0.5rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  grid-column: 1;
+  grid-row: 2;
+  color: var(--text-muted);
+  font-size: 0.625rem;
+  overflow-wrap: anywhere;
+}
+.semantic-passport-source-details {
+  margin-inline: 0.44rem;
+  color: var(--text-muted);
+  font-size: 0.625rem;
+}
+.semantic-passport-source-details summary {
+  padding-block: 0.16rem;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+.semantic-passport-source-details summary:hover,
+.semantic-passport-source-details summary:focus-visible { color: var(--text); }
+.semantic-passport-source-details summary:focus-visible {
+  outline: 2px solid var(--backend-stroke);
+  outline-offset: 1px;
+}
+.semantic-passport-source-details code {
+  display: block;
+  padding-block-end: 0.24rem;
+  color: var(--text);
+  direction: ltr;
+  unicode-bidi: isolate;
+  font: inherit;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  user-select: text;
 }
 .relationship-lens-summary {
   display: block;

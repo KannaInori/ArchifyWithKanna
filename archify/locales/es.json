@@ -332,6 +332,8 @@
   "viewer.passport.sourceCount.other": "{count} referencias de fuente verificadas",
   "viewer.passport.repository.open": "Abrir la revisión verificada del repositorio {revision}",
   "viewer.passport.source.open": "Abrir la fuente verificada {path} en la revisión {revision}",
+  "viewer.passport.source.fullPath": "Ruta completa",
+  "viewer.passport.source.fullPathFor": "Ruta completa de {name}",
   "viewer.passport.source.openLink": "Abrir ↗",
   "viewer.passport.reach.upstream.one": "Trazar {count} nodo definido ascendente",
   "viewer.passport.reach.upstream.other": "Trazar {count} nodos definidos ascendentes",

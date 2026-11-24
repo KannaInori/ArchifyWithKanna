@@ -320,6 +320,8 @@
   "viewer.passport.sourceCount.other": "{count} مراجعَ مصدرية مُتحقَّق منها",
   "viewer.passport.repository.open": "افتح التزام المستودع المُتحقَّق منه {revision}",
   "viewer.passport.source.open": "افتح المصدرَ المُتحقَّق منه {path} عند الالتزام {revision}",
+  "viewer.passport.source.fullPath": "المسار الكامل",
+  "viewer.passport.source.fullPathFor": "المسار الكامل لـ {name}",
   "viewer.passport.source.openLink": "افتح ↗",
   "viewer.passport.reach.upstream.one": "تتبّع العُقد المُؤَلَّفة نحو المنبع (العدد: {count})",
   "viewer.passport.reach.upstream.other": "تتبّع العُقد المُؤَلَّفة نحو المنبع (العدد: {count})",

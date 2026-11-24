@@ -320,6 +320,8 @@
   "viewer.passport.sourceCount.other": "Ссылок на проверенные источники: {count}",
   "viewer.passport.repository.open": "Открыть проверенную ревизию репозитория {revision}",
   "viewer.passport.source.open": "Открыть проверенный источник {path} на ревизии {revision}",
+  "viewer.passport.source.fullPath": "Полный путь",
+  "viewer.passport.source.fullPathFor": "Полный путь к {name}",
   "viewer.passport.source.openLink": "Открыть ↗",
   "viewer.passport.reach.upstream.one": "Проследить вверх по связям · узлов: {count}",
   "viewer.passport.reach.upstream.other": "Проследить вверх по связям · узлов: {count}",

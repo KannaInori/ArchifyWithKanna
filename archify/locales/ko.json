@@ -323,6 +323,8 @@
   "viewer.passport.sourceCount.other": "검증된 소스 참조 {count}개",
   "viewer.passport.repository.open": "검증된 저장소 리비전 {revision} 열기",
   "viewer.passport.source.open": "리비전 {revision}의 검증된 소스 {path} 열기",
+  "viewer.passport.source.fullPath": "전체 경로",
+  "viewer.passport.source.fullPathFor": "{name}의 전체 경로",
   "viewer.passport.source.openLink": "열기 ↗",
   "viewer.passport.reach.upstream.one": "업스트림 편집 노드 {count}개 추적",
   "viewer.passport.reach.upstream.other": "업스트림 편집 노드 {count}개 추적",

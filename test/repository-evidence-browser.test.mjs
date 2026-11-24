@@ -22,20 +22,32 @@ test('browser renders local-only sources as searchable text and web sources as l
       const result = run(['deliver', 'architecture', data.input, artifactPath, '--repo-root', data.root, '--json']);
       assert.equal(result.status, 0, result.stderr || result.stdout);
       for (const theme of ['light', 'dark']) {
-        await browser.inspect({ artifactPath, width: 1440, height: 900, theme });
+        const narrow = local && theme === 'dark';
+        await browser.inspect({ artifactPath, width: narrow ? 390 : 1440, height: narrow ? 844 : 900, theme });
         const sessionId = await browser.sessionPromise;
         const response = await browser.cdp.send('Runtime.evaluate', {
           expression: `(() => {
             document.querySelector('[data-node-id="users"]').dispatchEvent(new MouseEvent('click', { bubbles: true }));
             const panel = document.getElementById('focus-evidence');
             const rows = [...panel.querySelectorAll('.semantic-passport-source')];
+            const disclosures = [...panel.querySelectorAll('.semantic-passport-source-details')];
             const input = document.getElementById('node-finder-input');
             input.value = 'src/router.js';
             input.dispatchEvent(new Event('input', { bubbles: true }));
             return {
               visible: !panel.hidden,
               links: rows.filter(row => row.tagName === 'A').map(row => row.getAttribute('href')),
-              paths: rows.map(row => row.querySelector('small').textContent),
+              filenames: rows.map(row => row.querySelector('strong').textContent),
+              descriptions: rows.map(row => row.querySelector('small')?.textContent ?? null),
+              filenamesFit: rows.every(row => {
+                const name = row.querySelector('strong');
+                return name.scrollWidth <= name.clientWidth + 1;
+              }),
+              paths: disclosures.map(disclosure => disclosure.querySelector('code').textContent),
+              pathsCollapsed: disclosures.every(disclosure => !disclosure.open),
+              pathsMatchFont: disclosures.every(disclosure =>
+                getComputedStyle(disclosure.querySelector('code')).fontFamily ===
+                getComputedStyle(disclosure.querySelector('summary')).fontFamily),
               locations: rows.map(row => row.querySelector('code').textContent),
               repositoryHref: document.getElementById('focus-repository').getAttribute('href'),
               scope: panel.title,
@@ -54,7 +66,31 @@ test('browser renders local-only sources as searchable text and web sources as l
         assert.equal(observed.sourceCount, '2');
         assert.match(observed.sourceAria, /2 verified source references/);
         assert.equal(observed.invalidLinks, false);
+        assert.deepEqual(observed.filenames, ['router.js', 'store.js']);
+        assert.deepEqual(observed.descriptions, ['Request router', null]);
+        assert.equal(observed.filenamesFit, true);
         assert.deepEqual(observed.paths, ['src/router.js', 'src/store.js']);
+        assert.equal(observed.pathsCollapsed, true);
+        assert.equal(observed.pathsMatchFont, true);
+        if (narrow) {
+          await browser.cdp.send('Runtime.evaluate', {
+            expression: "document.querySelector('.semantic-passport-source-details summary').focus()",
+          }, sessionId);
+          for (const type of ['keyDown', 'keyUp']) {
+            await browser.cdp.send('Input.dispatchKeyEvent', {
+              type, key: 'Enter', code: 'Enter', windowsVirtualKeyCode: 13,
+              text: type === 'keyDown' ? '\r' : undefined,
+            }, sessionId);
+          }
+          const expanded = await browser.cdp.send('Runtime.evaluate', {
+            expression: `(() => {
+              const disclosure = document.querySelector('.semantic-passport-source-details');
+              const file = disclosure.querySelector('code');
+              return disclosure.open && file.scrollWidth <= file.clientWidth + 1;
+            })()`, returnByValue: true,
+          }, sessionId);
+          assert.equal(expanded.result.value, true, 'The full path opens by keyboard and fits in the narrow panel');
+        }
         assert.match(observed.scope, /local Git/);
         assert.match(observed.search, /Users/);
         assert.equal(observed.links.length, local ? 0 : 2);

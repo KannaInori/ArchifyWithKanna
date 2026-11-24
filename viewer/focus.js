@@ -375,18 +375,40 @@
             link.referrerPolicy = 'no-referrer';
             link.setAttribute('aria-label', viewerText('viewer.passport.source.open', { path: source.path, revision: repository.shortRevision }));
           }
+          var filename = source.path.slice(source.path.lastIndexOf('/') + 1) || source.path;
           var name = document.createElement('strong');
-          name.textContent = source.label || source.path.split('/').pop() || source.path;
-          var location = document.createElement('code');
-          location.textContent = source.line
-            ? 'L' + source.line + (source.endLine && source.endLine !== source.line ? '–' + source.endLine : '') + (source.href ? ' ↗' : '')
-            : source.href ? viewerText('viewer.passport.source.openLink') : '';
-          var sourcePath = document.createElement('small');
-          sourcePath.textContent = source.path;
+          name.textContent = filename;
           link.appendChild(name);
-          link.appendChild(location);
-          link.appendChild(sourcePath);
-          evidenceLinks.appendChild(link);
+          if (source.line || source.href) {
+            var location = document.createElement('code');
+            location.textContent = source.line
+              ? 'L' + source.line + (source.endLine && source.endLine !== source.line ? '–' + source.endLine : '') + (source.href ? ' ↗' : '')
+              : viewerText('viewer.passport.source.openLink');
+            link.appendChild(location);
+          }
+          if (source.label && source.label !== filename) {
+            var description = document.createElement('small');
+            description.textContent = source.label;
+            link.appendChild(description);
+          }
+          var entry = document.createElement('div');
+          entry.appendChild(link);
+          if (source.path !== filename) {
+            var details = document.createElement('details');
+            details.className = 'semantic-passport-source-details';
+            var summary = document.createElement('summary');
+            summary.textContent = viewerText('viewer.passport.source.fullPath');
+            summary.setAttribute('aria-label', viewerText('viewer.passport.source.fullPathFor', { name: filename }));
+            var sourcePath = document.createElement('code');
+            source.path.split('/').forEach(function (segment, index) {
+              if (index) sourcePath.append('/', document.createElement('wbr'));
+              sourcePath.append(segment);
+            });
+            details.appendChild(summary);
+            details.appendChild(sourcePath);
+            entry.appendChild(details);
+          }
+          evidenceLinks.appendChild(entry);
         });
         evidence.hidden = false;
       }

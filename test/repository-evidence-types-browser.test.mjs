@@ -108,7 +108,7 @@ test('verified sources remain in Focus and Finder with accessible counts and no 
           nodeSize: ['width', 'height'].map(key => Number(node.querySelector('rect').getAttribute(key))),
           labelFont: Number(node.querySelector('text[data-node-label]').getAttribute('font-size')),
           hasBrand: !!node.querySelector('.brand-mark'),
-          paths: rows.map(r => r.querySelector('small').textContent),
+          filenames: rows.map(r => r.querySelector('strong').textContent),
           links: rows.filter(r => r.tagName === 'A').map(r => r.getAttribute('href')),
           search: document.getElementById('node-finder-results').textContent };
       })()`, returnByValue: true,
@@ -131,7 +131,7 @@ test('verified sources remain in Focus and Finder with accessible counts and no 
       assert.equal(result.labelFont, 12, 'retain the preferred label font size');
     }
     assert.equal(result.hasBrand, Boolean(extra.brand), `${type} ${example}: brand fixture`);
-    assert.deepEqual(result.paths, ['source.js'], type);
+    assert.deepEqual(result.filenames, ['source.js'], type);
     assert.deepEqual(result.links, localOnly ? [] : [`${url}/${local === 'gitlab' ? '-/' : ''}blob/${revision}/source.js#L1${local === 'gitlab' ? '-3' : '-L3'}`], type);
     assert.ok(result.search.includes(node.label || node.title || node.name), `${type}: Finder must match the source-backed node`);
   }

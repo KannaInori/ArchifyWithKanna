@@ -320,6 +320,8 @@
   "viewer.passport.sourceCount.other": "{count} verified source references",
   "viewer.passport.repository.open": "Open verified repository revision {revision}",
   "viewer.passport.source.open": "Open verified source {path} at revision {revision}",
+  "viewer.passport.source.fullPath": "Full path",
+  "viewer.passport.source.fullPathFor": "Full path for {name}",
   "viewer.passport.source.openLink": "Open ↗",
   "viewer.passport.reach.upstream.one": "Trace {count} upstream authored node",
   "viewer.passport.reach.upstream.other": "Trace {count} upstream authored nodes",
